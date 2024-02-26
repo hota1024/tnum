@@ -1,6 +1,6 @@
 {
   "name": "tnum",
-  "version": "1.0.0",
+  "version": "1.0.1",
   "description": "🦀🏷️ rust-like enums for TypeScript",
   "main": "./core.js",
   "types": "./core.d.ts",

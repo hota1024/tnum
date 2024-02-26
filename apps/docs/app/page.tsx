@@ -1,5 +1,4 @@
 import { DocsLayout } from "fumadocs-ui/layout";
-import Link from "next/link";
 import { pageTree } from "./source";
 import { Card, Cards } from "fumadocs-ui/components/card";
 import { Github, Home, List } from "lucide-react";
@@ -35,13 +34,13 @@ export default function HomePage() {
 								icon={<List />}
 								title="Core API"
 								description="Learn How to create your own enums."
-								href="/docs"
+								href="/docs/core"
 							/>
 							<Card
 								icon={<List />}
 								title="Standard Enums"
 								description="Learn Standard enums."
-								href="/docs"
+								href="/docs/std"
 							/>
 							<Card
 								icon={<Github />}

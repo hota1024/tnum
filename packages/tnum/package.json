@@ -5,6 +5,7 @@
   "main": "./core.js",
   "types": "./core.d.ts",
   "files": [
+    "./core.d.ts",
     "./std.js",
     "./std.d.ts"
   ],

@@ -1,0 +1,24 @@
+{
+  "name": "tnum",
+  "version": "1.0.0",
+  "description": "🦀🏷️ rust-like enums for TypeScript",
+  "main": "./core.js",
+  "types": "./core.d.ts",
+  "files": [
+    "./std.js",
+    "./std.d.ts"
+  ],
+  "scripts": {
+    "build": "tsup",
+    "lint": "biome lint ./src",
+    "format": "biome format --write ./src"
+  },
+  "keywords": [],
+  "author": "hota1024",
+  "license": "ISC",
+  "devDependencies": {
+    "@biomejs/biome": "1.5.3",
+    "tsup": "^8.0.2",
+    "typescript": "^5.3.3"
+  }
+}

@@ -1,0 +1,67 @@
+---
+title: Opt<T>
+---
+
+## Anatomy
+
+```typescript
+type OptVariants<T> = {
+  Some: T;
+  None: null;
+};
+```
+
+## Import
+
+```typescript allowCopy
+import { Opt, Some, None } from "tnum/std";
+```
+
+## Usage
+
+```typescript
+import { Opt, Some, None } from "tnum/std";
+
+// Some(v)
+const some: Opt<number> = Some(10);
+// None
+const none: Opt<number> = None();
+
+// unwrap
+some.unwrap(); // returns 10.
+none.unwrap(); // throws error.
+```
+
+## Methods
+
+| Method call                            | `Some(1024)`                        | `None`                      | Description                                                                                      |
+| :------------------------------------- | :---------------------------------- | :-------------------------- | :----------------------------------------------------------------------------------------------- |
+| `clone()`                              | `Some(1024)` - cloned               | `None`                      | Returns clone.                                                                                   |
+| `isSome()`                             | `true` - narrowed to `Some(number)` | `false`                     | Returns `true` if the varaint is `Some`.                                                         |
+| `isSomeAnd((v) => v > 2048)`           | `false`                             | `false`                     | If the variant is `Some`, returns the result of the passed function. Otherwise, returns `false`. |
+| `isNone()`                             | `false`                             | `true` - narrowed to `None` | Returns `true` if the variant is `None`                                                          |
+| `unwrap()`                             | `1024`                              | throws error                | If the variant is `Some(v)`, returns `v`. Otherwise throws an error.                             |
+| `unwrapOr(0)`                          | `1024`                              | `0`                         | If the variant is `Some(v)`, returns `v`. Otherwise returns passed argument value.               |
+| `unwrapOrElse(() => 0)`                | `1024`                              | `0`                         | If the variant is `Some(v)`, returns `v`. Otherwise returns the result the passed function.      |
+| `map((v) => v * 2)`                    | `Some(2048)`                        | `None`                      | TODO                                                                                             |
+| `mapOr(1024, (v) => v * 2)`            | `2048`                              | `1024`                      | TODO                                                                                             |
+| `mapOrElse(() => 1024, (v) => v * 2)`  | `2048`                              | `1024`                      | TODO                                                                                             |
+| `and(Some(2048))`                      | `Some(2048)` - cloned               | `None`                      | TODO                                                                                             |
+| `and(None)`                            | `None`                              | None                        | TODO                                                                                             |
+| `andThen((v) => Some(v * 2))`          | `Some(2048)`                        | None                        | TODO                                                                                             |
+| `andThen((v) => None)`                 | `None`                              | None                        | TODO                                                                                             |
+| `contains(1024)`                       | `true`                              | `false`                     | TODO                                                                                             |
+| `filter((v) => v === 1024)`            | `Some(1024)` - cloned               | `None`                      | TODO                                                                                             |
+| `filter((v) => v === 512)`             | `None`                              | `None`                      | TODO                                                                                             |
+| `flatten()`                            | `Some(1024)`                        | `None`                      | TODO                                                                                             |
+| `inspect((v) => console.log(v))`       | outputs `1024`                      | do nothing                  | TODO                                                                                             |
+| `or(Some(512))`                        | `Some(1024)` - cloned               | `Some(512)` - cloned        | TODO                                                                                             |
+| `or(None)`                             | `Some(1024)` - cloned               | `None`                      | TODO                                                                                             |
+| `orElse(() => Some(512))`              | `Some(1024)` - cloned               | `Some(512)` - cloned        | TODO                                                                                             |
+| `orElse(() => None)`                   | `Some(1024)` - cloned               | `None`                      | TODO                                                                                             |
+| `xor(Some(512))`                       | `None`                              | `Some(512)` - cloned        | TODO                                                                                             |
+| `xor(None)`                            | `Some(1024)` - cloned               | `None`                      | TODO                                                                                             |
+| `zip(Some(512))`                       | `Some([1024, 512])`                 | `None`                      | TODO                                                                                             |
+| `zipWith(Some(512), (a, b) => {a, b})` | `Some({a: 1024, b: 512})`           | `None`                      | TODO                                                                                             |
+| `okOr("none...")`                      | `Ok(1024)`                          | `Err("none...")`            | TODO                                                                                             |
+| `okOrElse(() => "none...")`            | `Ok(1024)`                          | `Err("none...")`            | TODO                                                                                             |

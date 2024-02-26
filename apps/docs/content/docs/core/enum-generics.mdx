@@ -1,0 +1,24 @@
+---
+title: Enum generics
+---
+
+The `Enum` base class has 3 type arguments.
+
+| Type argument | Description             | Default                |
+| :------------ | :---------------------- | :--------------------- |
+| `V`           | The variant type.       | REQUIRED               |
+| `K`           | Current variant key.    | `unknown`              |
+| `NV`          | Narrowed variant value. | `V[K]` or `V[keyof K]` |
+
+```typescript
+export class Enum<
+  V,
+  K extends EnumNarrowSelector<V> = unknown,
+  NV extends V[keyof V] = K extends keyof V ? V[K] : V[keyof V]
+> {
+  #variant: K;
+  #value: NV;
+
+  // ...
+}
+```

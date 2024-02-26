@@ -1,0 +1,128 @@
+---
+title: Create your own enum
+description: How to create your own enum.
+---
+
+import { Step, Steps } from "fumadocs-ui/components/steps";
+
+Here is how to create your own enum.
+
+<Steps>
+<Step>
+
+## Define `Opt<T>` enum variants using `type`
+
+At first, you need to define variant and containing value using `type`. Each variant is represented by `[variant-name]: [containing-value-type]`.
+
+```typescript
+type OptVariants<T> {
+  Some: T;
+  None: null;
+};
+```
+
+</Step>
+
+<Step>
+
+## Create enum class using `Enum` base class
+
+Next, create the enum class using `Enum` base class.
+
+```typescript
+import { Enum } from "tnum/core"; // [!code highlight]
+
+type OptVariants<T> {
+  Some: T;
+  None: null;
+};
+
+// [!code word:OptVariants]
+export class Opt<T> extends Enum<OptVariants<T>> {} // [!code highlight]
+```
+
+To create enum instance:
+
+```typescript
+const opt0 = new Opt("Some", 10); // opt0 is Opt<number>
+const opt1 = new Opt<unknown>("None", null); // opt1 is Opt<unknown>
+```
+
+</Step>
+
+<Step>
+
+## Create `Some(T)` and `None()` static methods
+
+To generate `Opt<T>` with `Some(T)` or `None()` as in Rust:
+
+```typescript
+// ...
+
+export class Opt<T> extends Enum<OptVariants<T>> {
+  static Some<T>(value: T): Opt<T> {
+    return new Opt("Some", value);
+  }
+
+  static None<T>(): Opt<T> {
+    return new Opt<T>("None", null);
+  }
+}
+
+export const Some = Opt.Some;
+export const None = Opt.None;
+```
+
+To create enum instance:
+
+```typescript
+const opt0 = Some(10); // opt0 is Opt<number>
+const opt1 = None(); // opt1 is Opt<unknown>
+```
+
+</Step>
+
+<Step>
+
+## Add type-guard methods
+
+To add `isOk()` and `isNone()` type-guard methods using `EnumNarrowed`:
+
+```typescript
+// [!code word:EnumNarrowed]
+import { Enum, EnumNarrowed } from "tnum/core";
+
+// ...
+
+export class Opt<T> extends Enum<OptVariants<T>> {
+  // ...
+
+  isSome(): this is EnumNarrowed<this, OptVariants<T>, "Some"> {
+    return this.matches("Some");
+  }
+
+  isNone(): this is EnumNarrowed<this, OptVariants<T>, "None"> {
+    return this.matches("None");
+  }
+}
+```
+
+Now `takeVariantValue()` returns value type is narrowed down by `isSome()` and `isNone()`.
+
+```typescript
+const opt = Some(100);
+
+opt.takeVariantValue(); // number | null
+
+if (opt.isSome()) {
+  opt.takeVariantValue(); // number
+}
+
+if (opt.isNone()) {
+  opt.takeVariantValue(); // null
+}
+```
+
+</Step>
+
+</Steps>

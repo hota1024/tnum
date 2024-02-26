@@ -1,0 +1,23 @@
+---
+title: Introduction
+description: Introduction of tnum.
+---
+
+`tnum` provides enum class, match expression and Rust-like standard enums.
+
+This is a example code using tnum.
+
+```typescript
+import { Result, Ok, Err } from "tnum/std";
+
+function safeDivide(a: number, b: number): Result<number, string> {
+  if (b === 0) {
+    return Err("zero-division error");
+  }
+
+  return Ok(a / b);
+}
+
+console.log(safeDivide(1024, 2)); // Ok(512)
+console.log(safeDivide(1024, 0)); // Err("zero-division error")
+```

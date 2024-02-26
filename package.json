@@ -1,0 +1,13 @@
+{
+  "private": "true",
+  "scripts": {
+    "build": "turbo run build",
+    "dev": "turbo run dev",
+    "lint": "turbo run lint",
+    "format": "turbo run format"
+  },
+  "devDependencies": {
+    "@biomejs/biome": "^1.5.3",
+    "turbo": "^1.12.4"
+  }
+}

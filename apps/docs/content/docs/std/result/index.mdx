@@ -1,0 +1,37 @@
+---
+title: Result<T, E>
+---
+
+## Anatomy
+
+```typescript
+type ResultVariants<T, E> = {
+  Ok: T;
+  Err: E;
+};
+```
+
+## Import
+
+```typescript allowCopy
+import { Result, Ok, Err } from "tnum/std";
+```
+
+## Usage
+
+```typescript
+import { Result, Ok, Err } from "tnum/std";
+
+// Ok
+const ok: Result<number, string> = Ok(1024);
+// Err
+const err: Result<number, string> = Err("error");
+
+// unwrap
+ok.unwrap(); // returns 1024.
+err.unwrap(); // throws error.
+```
+
+## Methods
+
+TODO

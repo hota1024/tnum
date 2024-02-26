@@ -1,0 +1,121 @@
+---
+title: Enum methods
+description: Enum methods.
+---
+
+import { Heading } from "fumadocs-ui/components/heading";
+import { TypeTable } from "fumadocs-ui/components/type-table";
+import { InlineTOC } from "fumadocs-ui/components/inline-toc";
+
+<InlineTOC items={toc} defaultOpen />
+
+## `matches`
+
+`matches<K>(variant: K): this is EnumNarrowed<this, V, K>`
+
+Returns `true` if the variant is passed `variant`.
+
+<TypeTable
+  type={{
+    variant: {
+      description: "Variant key.",
+      type: "K",
+      typeDescriptionLink: "/docs/core/enum-generics",
+    },
+  }}
+/>
+
+```typescript
+// [!code word:matches]
+import { Ok, Err } from "tnum/std";
+
+const res = Ok(200);
+
+// short version of this code is `res.isOk()`.
+if (res.matches("Ok")) {
+  res.takeVariantValue(); // result-type is number.
+}
+```
+
+## `match`
+
+`match<T>(arms: EnumMatchArms<V, T>): Exclude<T, never>`
+
+This method is alternative of match expression. You can catch variant and containig value by arm(type: `[variant-name](value): T`). `_` arm catches uncaught variants. You must write arms so that it catches all variants. This method returns the return value of arm that caught the variant.
+
+<TypeTable
+  type={{
+    arms: {
+      description: "Arms to catch all variants.",
+      type: "EnumMatchArms<V, T>",
+    },
+  }}
+/>
+
+```typescript
+// [!code word:match]
+import { Some } from "tnum/std";
+
+const optName = Some("hoge");
+
+// short version of this code is `optName.unwrapOr("[no name]");`.
+const name: string = optName.match({
+  Some: (name) => name,
+  _: () => "[no name]",
+});
+```
+
+## `getVariant`
+
+`getVariant(): K`
+
+Returns the variant string.
+
+```typescript
+// [!code word:getVariant]
+import { Some, None } from "tnum/std";
+
+const some = Some(1024);
+const none = None();
+
+console.log(some.getVariant()); // "Some"
+console.log(none.getVariant()); // "None"
+```
+
+## `takeVariantValue`
+
+`takeVariantValue(): NV`
+
+Returns the variant value. The return value type is narrowed by current [`K`](/docs/core/enum-generics).
+
+```typescript
+// [!code word:takeVariantValue]
+import { Some, None } from "tnum/std";
+
+const some = Some(1024);
+const none = None();
+
+console.log(some.takeVariantValue()); // 1024
+console.log(none.takeVariantValue()); // null
+
+some.takeVariantValue(); // → number | null
+
+if (some.isSome()) {
+  // narrowed by isSome()
+  some.takeVariantValue(); // → number
+}
+```
+
+## `toJSON`
+
+`toJSON(): string`
+
+Returns JSON representation.
+
+```typescript
+// [!code word:toJSON]
+import { Some, None } from "tnum/std";
+
+const opt = Some(1024);
+console.log(opt.toJSON()); // "{"variant":"Some","value":1024}"
+```
